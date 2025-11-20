@@ -20,7 +20,7 @@ Ensure you have the following installed on your system:
 
 1.  Clone the repository:
     ```bash
-    git clone [YOUR_REPOSITORY_ADDRESS]
+    git clone https://github.com/Pitulec/FilmZone.git
     cd filmzone/backend
     ```
 
