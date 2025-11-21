@@ -8,7 +8,7 @@ class UserBase(BaseModel):
     role: str = Field(..., description="User role - 'user' or 'admin'.")
 
 class UserCreate(UserBase):
-    password: str = Field(..., min_length=6, max_length=100)
+    password: str = Field(..., min_length=6, max_length=70)
 
 class UserResponse(UserBase):
     id: int
