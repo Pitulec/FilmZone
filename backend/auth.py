@@ -13,7 +13,7 @@ from schemas import Token, TokenData, LoginRequest, UserCreate
 from config import settings
 
 # Initialize FastAPI router for authentication routes
-router = APIRouter(prefix="/api/auth", tags=["auth"])
+router = APIRouter(prefix="/auth", tags=["auth"])
 
 # Password hashing (argon2)
 pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
@@ -23,8 +23,7 @@ SECRET_KEY = settings.SECRET_KEY
 ALGORITHM = settings.ALGORITHM
 ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/signin")
-
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/signin")
 
 # Function to verify a password
 def verify_password(plain_password: str, hashed_password: str) -> bool:
