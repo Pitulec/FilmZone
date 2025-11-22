@@ -68,3 +68,16 @@ def delete_film(film_id: int, db: Session = Depends(get_db), current_user: User 
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
             detail=f"Database error: Could not delete film."
         )
+
+# Endpoint for getting all films
+@router.get("/", status_code=status.HTTP_200_OK)
+def get_all_films(db: Session = Depends(get_db)):
+    return db.query(Film).all()
+
+# Endpoint for getting film by id
+@router.get("/{film_id}", status_code=status.HTTP_200_OK)
+def get_film_by_id(film_id: int, db: Session = Depends(get_db)):
+    film = db.query(Film).filter(Film.id == film_id).first()
+    if not film:
+        raise HTTPException(status_code=404, detail="Film not found")
+    return film
