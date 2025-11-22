@@ -49,3 +49,26 @@ class TokenData(BaseModel):
 class LoginRequest(BaseModel):
     username: str
     password: str
+
+class ReviewBase(BaseModel):
+    film_id: int
+    title: str
+    content: str
+    stars: int
+
+
+class ReviewCreate(ReviewBase):
+    pass
+
+class ReviewUpdate(BaseModel):
+    title: Optional[str] = Field(None, min_length=1, max_length=100)
+    content: Optional[str] = Field(None, min_length=1, max_length=400)
+    stars: Optional[int] = Field(None, ge=2, le=10)
+
+class ReviewResponse(ReviewBase):
+    id: int
+    film_id: int
+    user_id: int
+
+    class Config:
+        from_attributes = True
