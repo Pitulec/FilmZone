@@ -4,7 +4,8 @@ from typing import Annotated
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
+# Zmiana: importujemy OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm 
 from sqlalchemy.orm import Session
 
 from database import get_db
@@ -59,7 +60,8 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None) -> s
 
 # Endpoint for user login (signin)
 @router.post("/signin", response_model=Token)
-def signin(form_data: LoginRequest, db: Session = Depends(get_db)):
+# ZMIANA: Użycie OAuth2PasswordRequestForm zamiast LoginRequest
+def signin(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Session = Depends(get_db)):
     user = authenticate_user(db, form_data.username, form_data.password)
     if not user:
         raise HTTPException(
@@ -112,6 +114,3 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Se
 # Dependency function to get the current active user
 async def get_current_active_user(current_user: User = Depends(get_current_user)):
     return current_user
-
-
-
