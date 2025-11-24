@@ -18,6 +18,7 @@ class UserResponse(UserBase):
 
 # Film schemas
 class FilmBase(BaseModel):
+    poster_url: str = Field(..., min_length=10, description="URL address of the film poster.")
     title: str = Field(..., min_length=1, max_length=200)
     description: Optional[str] = Field(None, max_length=1000)
     creator: str = Field(..., min_length=1, max_length=100)
@@ -27,6 +28,7 @@ class FilmCreate(FilmBase):
     pass
 
 class FilmUpdate(BaseModel):
+    poster_url: Optional[str] = Field(..., min_length=10, description="URL address of the film poster.")
     title: Optional[str] = Field(None, min_length=1, max_length=200)
     description: Optional[str] = Field(None, max_length=1000)
     creator: Optional[str] = Field(None, min_length=1, max_length=100)
@@ -56,6 +58,14 @@ class ReviewBase(BaseModel):
     content: str
     stars: int
 
+
+class ReviewAuthor(BaseModel):
+    # Dane, które chcemy zwrócić o autorze
+    id: int
+    username: str
+
+    class Config:
+        from_attributes = True
 
 class ReviewCreate(ReviewBase):
     pass

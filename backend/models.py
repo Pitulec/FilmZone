@@ -18,6 +18,7 @@ class Film(Base):
     __tablename__ = "films"
 
     id = Column(Integer, primary_key=True, index=True)
+    poster_url = Column(String, nullable=False)
     title = Column(String, index=True, nullable=False)
     description = Column(String, nullable=True)
     creator = Column(String, nullable=False)

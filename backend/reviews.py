@@ -63,6 +63,25 @@ def delete_review(review_id: int, db: Session = Depends(get_db), current_user: U
 @router.get("/film/{film_id}", status_code=status.HTTP_200_OK)
 def get_reviews_by_film_id(film_id: int, db: Session = Depends(get_db)):
     reviews = db.query(Review).filter(Review.film_id == film_id).all()
+    
     if not reviews:
         raise HTTPException(status_code=404, detail="Reviews not found")
-    return reviews
+
+    user_ids = [r.user_id for r in reviews]
+    users_data = db.query(User.id, User.username).filter(User.id.in_(user_ids)).all()
+    username_map = {user.id: user.username for user in users_data}
+
+    result_list = []
+    for review in reviews:
+        review_dict = {
+            "id": review.id,
+            "film_id": review.film_id,
+            "user_id": review.user_id,
+            "username": username_map.get(review.user_id, "Unknown User"),
+            "title": review.title,
+            "content": review.content,
+            "stars": review.stars
+        }
+        result_list.append(review_dict)
+
+    return result_list
