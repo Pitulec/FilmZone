@@ -1,5 +1,5 @@
 import react from "react";
-import { Login } from "../scripts/auth";
+import Login from "../scripts/auth";
 
 export default function SignIn() {
 	return (
@@ -8,8 +8,8 @@ export default function SignIn() {
 				<form
 					className="block w-full max-w-sm mx-auto"
 					action={async (formData) => {
+						"use server";
 						await Login(formData);
-						redirect("/");
 					}}>
 					<h1 className="text-center font-bold text-5xl mb-10">
 						Film<span className="text-[#DD4242]">Zone</span>
