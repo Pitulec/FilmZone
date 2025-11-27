@@ -20,18 +20,18 @@ export default function Home() {
 			<div className="items-center justify-between mx-auto max-w-3xl mt-20">
 				<h1 className="text-3xl my-5 text-[#DD4242] font-bold">Trending:</h1>
 				<div className="grid grid-cols-3 items-center justify-between mx-auto gap-10">
-					<Poster filmId="1" width="300" height="450" />
-					<Poster filmId="1" width="300" height="450" />
-					<Poster filmId="1" width="300" height="450" />
+					<Poster filmId="2" width="300" height="450" />
+					<Poster filmId="3" width="300" height="450" />
+					<Poster filmId="4" width="300" height="450" />
 				</div>
 			</div>
 			<div className="items-center justify-between mx-auto max-w-3xl mt-20">
 				<h1 className="text-3xl my-5 text-[#DD4242] font-bold">Top films:</h1>
 				<div className="grid grid-cols-4 items-center justify-between mx-auto gap-5">
-					<Poster filmId="1" width="300" height="450" />
-					<Poster filmId="1" width="300" height="450" />
-					<Poster filmId="1" width="300" height="450" />
-					<Poster filmId="1" width="300" height="450" />
+					<Poster filmId="5" width="300" height="450" />
+					<Poster filmId="6" width="300" height="450" />
+					<Poster filmId="7" width="300" height="450" />
+					<Poster filmId="8" width="300" height="450" />
 				</div>
 			</div>
 		</>
