@@ -73,7 +73,7 @@ export default function Home() {
 					}`}
 				/>
 				{username.length > 0 && !isUsernameValid && (
-					<p className="text-sm text-[#DD4242] mb-3 -mt-2">Nazwa użytkownika musi mieć od 6 do 70 znaków.</p>
+					<p className="text-sm text-[#DD4242] mb-3 -mt-2">Username must be between 6 and 70 characters long.</p>
 				)}
 
 				<p className="text-md mb-1">Password</p>
@@ -89,7 +89,7 @@ export default function Home() {
 					}`}
 				/>
 				{password.length > 0 && !isPasswordValid && (
-					<p className="text-sm text-[#DD4242] mb-3 -mt-5">Hasło musi mieć od 6 do 70 znaków.</p>
+					<p className="text-sm text-[#DD4242] mb-3 -mt-5">Password must be between 6 and 70 characters long.</p>
 				)}
 
 				{error && <p className="text-sm text-[#DD4242] mb-3 text-center font-medium">{error}</p>}
@@ -100,7 +100,7 @@ export default function Home() {
 					className={`font-semibold py-2 rounded-xl transition duration-200 mb-2 ${
 						isFormValid && !isLoading ? "bg-[#DD4242] hover:bg-[#722121]" : "bg-[#722121] cursor-not-allowed opacity-75"
 					}`}>
-					{isLoading ? "Logowanie..." : "Sign In"}
+					{isLoading ? "Signing in..." : "Sign In"}
 				</button>
 
 				<a href="/signup" className="text-center font-semibold text-[#8D99AE]">
