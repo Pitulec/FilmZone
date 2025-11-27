@@ -14,7 +14,6 @@ export default function Navbar() {
 				<span>Film</span>
 				<span className="text-[#DD4242] group-hover:text-[#bc2121]">Zone</span>
 			</a>
-			<UserComponent />
 			<ul className="flex items-center gap-6 font-medium">
 				{menu.map((item, i) => (
 					<li key={i}>

@@ -1,5 +1,5 @@
 import react from "react";
-import Login from "../scripts/auth";
+import Login from "../components/auth";
 
 export default function SignIn() {
 	return (
