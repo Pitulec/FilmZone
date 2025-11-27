@@ -27,13 +27,17 @@ export default function Home() {
         formData.append('password', password);
 
         try {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: formData.toString(),
-            });
+			const response = await fetch("http://localhost:8000/auth/signup", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					username: formData.get("username"),
+					role: "user",
+					password: formData.get("password"),
+				}),
+			});
 
             if (response.ok) {
                 const data = await response.json();
@@ -124,11 +128,11 @@ export default function Home() {
                             : 'bg-[#722121] cursor-not-allowed opacity-75' 
                     }`}
                 >
-                    {isLoading ? 'Logowanie...' : 'Sign In'}
+                    {isLoading ? 'Signing in...' : 'Sign in'}
                 </button>
 
-                <a href="/signup" className="text-center font-semibold text-[#8D99AE]">
-                    Don't have an account? <span className="underline">Sign up</span>
+                <a href="/signin" className="text-center font-semibold text-[#8D99AE]">
+                    Already have an account? <span className="underline">Sign in</span>
                 </a>
             </div>
         </main>
