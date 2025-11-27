@@ -9,31 +9,54 @@ export default async function UserComponent() {
 	if (cookieStore.get("token") != undefined) {
 		token = cookieStore.get("token").value;
 		try {
-			const response = await fetch("http://localhost:8000/auth/" + token);
+			const response = await fetch("http://localhost:8000/auth/me/username", {
+				method: "POST",
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
 
 			if (!response.ok) {
 				return (
-					<>
-						<User className="w-5 h-5" />
-						<span>Sign In</span>
-					</>
+					<span className="group inline-flex items-center gap-2">
+						<User className="w-5 h-5 group-hover:text-[#DD4242]" />
+						<span className="text-xl group-hover:text-[#DD4242]">Sign In</span>
+					</span>
 				);
 			} else {
-				return (
-					<>
-						<User className="w-5 h-5" />
-						<span>User</span>
-					</>
-				);
+				const data = await response.json();
+				const username = data?.username ?? data?.user ?? data?.sub ?? null;
+				if (username) {
+					return (
+						<a href="/" className="group inline-flex items-center gap-2">
+							<User className="w-5 h-5 group-hover:text-[#DD4242]" />
+							<span className="text-xl group-hover:text-[#DD4242]">{username}</span>
+						</a>
+					);
+				} else {
+					return (
+						<a href="/signin" className="group inline-flex items-center gap-2">
+							<User className="w-5 h-5 group-hover:text-[#DD4242]" />
+							<span className="text-xl group-hover:text-[#DD4242]">Sign In</span>
+						</a>
+					);
+				}
 			}
 		} catch (error) {
-			cookieStore.delete("token");
+			//
 			return (
-				<>
-					<User className="w-5 h-5" />
-					<span>Sign In</span>
-				</>
+				<a href="/signin" className="group">
+					<User className="inline w-5 h-5 group-hover:text-[#DD4242]" />
+					<span className="text-xl group-hover:text-[#DD4242]">&nbsp;Sign In</span>
+				</a>
 			);
 		}
+	} else {
+		return (
+			<a href="/signin" className="group">
+				<User className="inline w-5 h-5 group-hover:text-[#DD4242]" />
+				<span className="text-xl group-hover:text-[#DD4242]">&nbsp;Sign In</span>
+			</a>
+		);
 	}
 }

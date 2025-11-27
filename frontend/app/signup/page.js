@@ -1,10 +1,16 @@
 import react from "react";
+import { auth_Signup } from "../components/auth";
 
-export default function SignIn() {
+export default function SignUp() {
 	return (
 		<>
 			<div className="flex items-center justify-between mx-auto outline-2 outline-[#8D99AE] max-w-3xl p-10 top-25 rounded-xl mb-15 bg-[#2B2D42]">
-				<form className="block w-full max-w-sm mx-auto">
+				<form
+					className="block w-full max-w-sm mx-auto"
+					action={async (formData) => {
+						"use server";
+						await auth_Signup(formData);
+					}}>
 					<h1 className="text-center font-bold text-5xl mb-10">
 						Film<span className="text-[#DD4242]">Zone</span>
 					</h1>
@@ -31,8 +37,8 @@ export default function SignIn() {
 					</label>
 					<input
 						type="password"
-						id="password"
-						name="password"
+						id="password_confirm"
+						name="password_confirm"
 						className="mb-4 p-2 w-full text-[#EDF2F4] rounded-xl bg-[rgba(141,153,174,.15)] outline-2 outline-[#8D99AE]"
 					/>
 					<button type="submit" className="bg-[#DD4242] w-full mt-2 text-[#EDF2F4] px-4 py-2 rounded-xl hover:bg-[#bc2121]">

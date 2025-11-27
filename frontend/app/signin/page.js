@@ -1,5 +1,5 @@
 import react from "react";
-import Login from "../components/auth";
+import auth_Login from "../components/auth";
 
 export default function SignIn() {
 	return (
@@ -9,7 +9,7 @@ export default function SignIn() {
 					className="block w-full max-w-sm mx-auto"
 					action={async (formData) => {
 						"use server";
-						await Login(formData);
+						await auth_Login(formData);
 					}}>
 					<h1 className="text-center font-bold text-5xl mb-10">
 						Film<span className="text-[#DD4242]">Zone</span>

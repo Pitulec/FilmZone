@@ -114,3 +114,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Se
 # Dependency function to get the current active user
 async def get_current_active_user(current_user: User = Depends(get_current_user)):
     return current_user
+
+@router.post("/me/username")
+def get_my_username(current_user: User = Depends(get_current_active_user)):
+    return {"username": current_user.username}
