@@ -17,9 +17,9 @@ def create_default_admin():
         new_admin = User(username="admin", hashed_password=hashed_pw, role="admin")
         db.add(new_admin)
         db.commit()
-        print(">>> Utworzono domyślnego użytkownika admin/admin (role=admin)")
+        print(">>> Created default admin user admin/admin (role=admin)")
     else:
-        print(">>> Domyślny admin już istnieje")
+        print(">>> Default admin user already exists")
     db.close()
 
 create_default_admin()
