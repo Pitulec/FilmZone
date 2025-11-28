@@ -5,7 +5,6 @@ from models import User, Film, Review
 from config import settings
 import auth
 import films
-import reviews
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
@@ -13,7 +12,8 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI()
 app.include_router(auth.router)
 app.include_router(films.router)
-app.include_router(reviews.router)
+app.include_router(films.users_router)
+app.include_router(films.reviews_router)
 
 origins = [
     "http://localhost",
