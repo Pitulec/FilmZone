@@ -1,40 +1,116 @@
-# FilmZone
-🎥 FilmZone - A platform for reviewing movies and discovering new films.
+# FilmZone — Full-Stack Movie Review Application
+
+FilmZone is a full–stack web application that allows users to browse movies, register and log in, add reviews, and access role-based features.  
+The project consists of:
+
+- a **FastAPI backend** for authentication, film management and review handling  
+- a **Next.js frontend** providing an interactive UI for users and administrators  
 
 ---
 
-## 🚀 Getting Started
+## 🛠 Technology Stack
 
-Follow these steps to set up and run the FilmZone backend application locally. This guide assumes you are working within a Python virtual environment.
+### **Backend**
+- Python 3  
+- FastAPI  
+- SQLAlchemy ORM  
+- Passlib (argon2 password hashing)  
+- python-jose (JWT authentication)  
+- SQLite (default database)  
 
-### ⚙️ Prerequisites
-
-Ensure you have the following installed on your system:
-
-* **Python** (Version 3.8 or higher)
-* **PostgreSQL** (The database server must be running and accessible)
+### **Frontend**
+- Next.js 14  
+- React 18  
+- TailwindCSS
 
 ---
 
-### 1. Cloning and Dependency Installation
+## 🔧 Environment Variables — Backend (.env)
 
-1.  Clone the repository:
-    ```bash
-    git clone https://github.com/Pitulec/FilmZone.git
-    cd filmzone/backend
-    ```
+The backend includes an example environment file:
+**backend/.env.example**
 
-2.  **Install the required packages:**
-    ```bash
-    pip install fastapi uvicorn "sqlalchemy" "psycopg2-binary" "pydantic-settings" "passlib[bcrypt]" "python-jose"
-    ```
-    or
-    ```bash
-    pip install -r requirements.txt
-    ```
+Change directory:
+```PowerShell
+cd backend
+```
+Copy the file:
+```PowerShell
+cp .env.example .env
+```
 
-### 2. Environment Configuration (.env)
+Then fulfill data in .env.
 
-The application uses **Pydantic-Settings** for configuration, which loads variables from an `.env` file.
+---
 
-Rename file **.env.example** to **`.env`** and set yours DATABASE_URL and SECRET_KEY.
+## 📦 Backend Installation
+
+From the root of the project:
+```cmd
+cd backend
+```
+1. Create a virtual environment
+```
+python -m venv venv
+```
+3. Activate the virtual environment
+
+Windows (PowerShell):
+```
+.\venv\Scripts\activate.ps1
+```
+
+Windows (CMD):
+```
+venv\Scripts\activate.bat
+```
+
+Linux/macOS:
+```
+source venv/bin/activate
+```
+3. Install required dependencies
+```
+pip install -r requirements.txt
+```
+---
+# ▶️ Running the Backend
+
+Start the FastAPI backend:
+```
+uvicorn main:app --reload
+```
+
+Backend will be available at:
+```
+http://127.0.0.1:8000
+```
+
+Swagger API docs:
+```
+http://127.0.0.1:8000/docs
+```
+---
+# 📦 Frontend Installation
+
+From the project root:
+```
+cd frontend
+```
+
+Install all required dependencies:
+```
+npm install
+```
+---
+# ▶️ Running the Frontend
+
+Run the frontend development server:
+```
+npm run dev
+```
+
+Frontend is available at:
+```
+http://localhost:3000
+```
