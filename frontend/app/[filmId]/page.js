@@ -96,7 +96,7 @@ export default function FilmPage({ searchParams }) {
       {/* Header and details */}
       <h1 className="text-2xl font-bold mb-8 text-[#EDF2F4]">Film details & reviews</h1>
 
-      <div className="flex gap-8">
+      <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
         {/* Poster section */}
         <div className="shrink-0 w-64">
           <div className="w-full aspect-2/3 overflow-hidden rounded-xl outline-3 outline-[#8D99AE]">
