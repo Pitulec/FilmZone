@@ -11,13 +11,13 @@ Base.metadata.create_all(bind=engine)
 
 def create_default_admin():
     db = SessionLocal()
-    admin = db.query(User).filter(User.username == "admin").first()
+    admin = db.query(User).filter(User.username == "adminadmin").first()
     if not admin:
-        hashed_pw = get_password_hash("admin")
-        new_admin = User(username="admin", hashed_password=hashed_pw, role="admin")
+        hashed_pw = get_password_hash("adminadmin")
+        new_admin = User(username="adminadmin", hashed_password=hashed_pw, role="admin")
         db.add(new_admin)
         db.commit()
-        print(">>> Created default admin user admin/admin (role=admin)")
+        print(">>> Created default admin user adminadmin/adminadmin (role=admin)")
     else:
         print(">>> Default admin user already exists")
     db.close()
