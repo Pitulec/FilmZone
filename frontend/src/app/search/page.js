@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from 'react';
-import Poster from '@/components/Poster';
+import { User, Calendar } from 'lucide-react';
 
 export default function SearchPage() {
   const [films, setFilms] = useState([]);
@@ -36,7 +36,7 @@ export default function SearchPage() {
   });
 
   return (
-    <main className="min-h-screen flex flex-col items-center mt-40 w-xl mx-auto">
+    <main className="min-h-screen flex flex-col items-center mt-40 w-3xl mx-auto">
       <h1 className='font-semibold text-3xl mb-6'>Film Search</h1>
         <input
           type="text"
@@ -69,58 +69,25 @@ export default function SearchPage() {
                 <p className="text-neutral-400 text-xl">No films found matching your search.</p>
               </div>
             ) : (
-            <>
-                <div>
-                    <Poster />
-                </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="flex flex-col gap-6 self-start w-full">
                 {filteredFilms.map((film) => (
                   <div
                     key={film.id}
-                    className="bg-white/5 rounded-lg outline outline-[#8d99aebe]"
+                    className="flex flex-col w-full"         
                   >
-                    <div className="p-6">
-                      <h3 className="text-xl font-semibold text-neutral-50 mb-2">
-                        {film.title}
-                      </h3>
-                      
-                      {film.creator && (
-                        <p className="text-sm text-neutral-300 mb-2">
-                          <span className="font-medium">Director:</span> {film.creator}
-                        </p>
-                      )}
-        
-                      {film.year && (
-                        <p className="text-sm text-neutral-400 mb-2">
-                          <span className="font-medium">Year:</span> {film.year}
-                        </p>
-                      )}
-                      
-                      {film.genre && (
-                        <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full mb-3">
-                          {film.genre}
-                        </span>
-                      )}
-                      
-                      {film.description && (
-                        <p className="text-gray-700 text-sm line-clamp-3">
-                          {film.description}
-                        </p>
-                      )}
-                      
-                      {film.rating && (
-                        <div className="mt-4 flex items-center">
-                          <span className="text-yellow-500 mr-1">★</span>
-                          <span className="text-sm font-medium text-gray-700">
-                            {film.rating}/10
-                          </span>
+                    <a href={`/film/${film.id}`} className="flex w-full gap-6">
+                        <img src={film.poster_url} alt={film.title} className="rounded-xl outline-2 outline-[#8D99AE] shadow-2xl shadow-[#8d99ae2c] w-48 h-64 object-cover flex-shrink-0"/>
+                        <div>
+                            <h3 className="text-xl font-semibold text-neutral-50">{film.title.slice(0, 70)} {film.title.length > 70 ? "..." : ""}</h3>
+                            <p className="text-neutral-300 text-sm">{film.description.slice(0, 500)} {film.description.length > 500 ? "..." : ""}</p>
+                            <p className="mt-4 text-sm text-neutral-400"><User className="inline w-5" /> {film.creator}</p>
+                            <p className="text-sm text-neutral-400"><Calendar className="inline w-5" /> {film.year}</p>
                         </div>
-                      )}
-                    </div>
+                    </a>
+                    <hr className="my-6 border-neutral-200/20 w-full"/>
                   </div>
                 ))}
               </div>
-            </>
             )}
           </>
         )}
