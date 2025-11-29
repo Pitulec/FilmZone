@@ -72,11 +72,6 @@ export default function ReviewManagerClient() {
 							{openMenuId === r.id && (
 								<div className="absolute right-0 mt-2 w-40 bg-[#2B2D42] border rounded z-10">
 									<button
-										onClick={() => router.push(`/dashboard/admin/editReview/${r.id}`)}
-										className="w-full text-left px-3 py-1 text-sm bg-none text-white hover:bg-gray-100">
-										Edit
-									</button>
-									<button
 										onClick={async () => {
 											if (!confirm("Delete this review?")) return;
 											try {

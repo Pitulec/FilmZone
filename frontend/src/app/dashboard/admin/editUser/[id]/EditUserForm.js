@@ -32,11 +32,14 @@ export default function EditUserForm({ userId }) {
 		return () => (mounted = false);
 	}, [userId]);
 
+	const isUsernameValid = username.trim().length >= 3 && username.trim().length <= 50;
+	const isFormValid = isUsernameValid;
+
 	const handleUpdate = async () => {
 		setError(null);
 		setSuccess(null);
-		if (username.trim().length < 3) {
-			setError("Username too short.");
+		if (!isFormValid) {
+			setError("Please fix form errors before updating.");
 			return;
 		}
 		setIsLoading(true);
@@ -67,24 +70,47 @@ export default function EditUserForm({ userId }) {
 	return (
 		<main className="flex items-center justify-center min-h-screen">
 			<div className="flex flex-col bg-[#8d99ae21] outline outline-[#8D99AE] rounded-xl p-8 w-md">
-				<h2 className="text-2xl font-bold mb-4 text-center">Edit user</h2>
-				<p className="text-md mb-1">Username</p>
-				<input value={username} onChange={(e) => setUsername(e.target.value)} className="px-3 py-2 mb-3 rounded" />
-				<p className="text-md mb-1">Role</p>
-				<select value={role} onChange={(e) => setRole(e.target.value)} className="px-3 py-2 mb-3 rounded">
-					<option value="user">user</option>
-					<option value="admin">admin</option>
-				</select>
+				<div className="text-4xl font-bold text-center mb-6">
+					<span>Film</span>
+					<span className="text-[#DD4242]">Zone</span>
+				</div>
 
-				{error && <p className="text-sm text-[#DD4242] mb-3">{error}</p>}
-				{success && <p className="text-sm text-[#22c55e] mb-3">{success}</p>}
+				<p className="text-md mb-1">Username *</p>
+				<input
+					type="text"
+					placeholder="Enter username"
+					value={username}
+					onChange={(e) => setUsername(e.target.value)}
+					maxLength={50}
+					className={`px-3 py-2 bg-[#8d99ae21] outline rounded-xl mb-3 ${
+						username.length > 0 && !isUsernameValid ? "outline-[#DD4242]" : "outline-[#8D99AE]"
+					}`}
+				/>
 
 				<div className="flex gap-3">
-					<button onClick={handleUpdate} disabled={isLoading} className="bg-[#DD4242] text-white px-4 py-2 rounded">
+					<div className="flex-1 min-w-0">
+						<p className="text-md mb-1">Role</p>
+						<select
+							value={role}
+							onChange={(e) => setRole(e.target.value)}
+							className={`w-full px-3 py-2 bg-[#8d99ae21] outline rounded-xl mb-3 ${"outline-[#8D99AE]"}`}>
+							<option value="user">user</option>
+							<option value="admin">admin</option>
+						</select>
+					</div>
+				</div>
+
+				{error && <p className="text-sm text-[#DD4242] mb-3 text-center font-medium">{error}</p>}
+				{success && <p className="text-sm text-[#22c55e] mb-3 text-center font-medium">{success}</p>}
+
+				<div className="flex gap-3">
+					<button
+						onClick={handleUpdate}
+						disabled={!isFormValid || isLoading}
+						className={`w-full font-semibold py-2 rounded-xl transition duration-200 mb-2 ${
+							isFormValid && !isLoading ? "bg-[#DD4242] hover:bg-[#722121]" : "bg-[#722121] cursor-not-allowed opacity-75"
+						}`}>
 						{isLoading ? "Updating..." : "Update user"}
-					</button>
-					<button onClick={() => router.push("/dashboard/admin/users")} className="px-4 py-2 rounded border">
-						Cancel
 					</button>
 				</div>
 			</div>
