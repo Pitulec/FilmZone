@@ -22,7 +22,7 @@ export default function Poster({ filmId, width, height }) {
 				setImg(result.poster_url);
 				setTitle(result.title);
 			} catch (error) {
-				setImg("/public/poster_error.png");
+				setImg("https://i.imgur.com/3P6DDpR.png");
 				setTitle("Film Title");
 			}
 		}
