@@ -27,13 +27,29 @@ function ReviewCard({ review }) {
 
 // Component for displaying the Film Page
 export default function FilmPage({ params }) {
-	const filmId = params.id;
+	const [filmId, setFilmId] = useState(null);
+
+	useEffect(() => {
+		let mounted = true;
+		Promise.resolve(params)
+			.then((p) => {
+				if (mounted && p && p.id) setFilmId(p.id);
+			})
+			.catch((err) => {
+				console.error("Failed to resolve params:", err);
+			});
+
+		return () => {
+			mounted = false;
+		};
+	}, [params]);
 	const [filmDetails, setFilmDetails] = useState(null);
 	const [reviews, setReviews] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
+		if (!filmId) return; // wait until filmId is resolved
 		async function fetchFilmData() {
 			const filmUrl = `http://localhost:8000/films/${filmId}`;
 			const reviewsUrl = `http://localhost:8000/films/${filmId}/reviews`;
