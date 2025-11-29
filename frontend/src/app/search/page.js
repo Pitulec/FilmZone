@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from 'react';
+import Poster from '@/components/Poster';
 
 export default function SearchPage() {
   const [films, setFilms] = useState([]);
@@ -35,19 +36,19 @@ export default function SearchPage() {
   });
 
   return (
-    <main className="min-h-screen flex flex-col items-center mt-40 ">
+    <main className="min-h-screen flex flex-col items-center mt-40 w-xl mx-auto">
       <h1 className='font-semibold text-3xl mb-6'>Film Search</h1>
         <input
           type="text"
           placeholder="Search films by title, director, genre..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="p-4 outline outline-[#8D99AE] shadow-2xl shadow-[#8d99ae2c] bg-[#8d99ae1c] rounded-xl w-1/3"
+          className="p-4 outline outline-[#8D99AE] shadow-2xl shadow-[#8d99ae2c] bg-[#8d99ae1c] rounded-xl w-full mb-6"
           />
 
-        { (
-          <div className="bg-red-50/40 border border-red-200 rounded-lg p-4 mb-6">
-            <p className="text-red-800">Error: {error}</p>
+        { error && (
+          <div className="bg-red-50/80 border border-red-200 rounded-lg p-3 mb-6 w-full">
+            <p className="text-red-700 font-semibold">Error: {error}</p>
             <button
               onClick={fetchFilms}
               className="mt-2 text-red-600 hover:text-red-800 underline"
@@ -59,34 +60,38 @@ export default function SearchPage() {
 
         {!error && (
           <>
-            <div className="mb-4 text-gray-600">
+            <div className="mb-4 text-neutral-400">
               {filteredFilms.length} {filteredFilms.length === 1 ? 'film' : 'films'} found
             </div>
 
             {filteredFilms.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-gray-500 text-lg">No films found matching your search.</p>
+                <p className="text-neutral-400 text-xl">No films found matching your search.</p>
               </div>
             ) : (
+            <>
+                <div>
+                    <Poster />
+                </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredFilms.map((film) => (
                   <div
                     key={film.id}
-                    className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                    className="bg-white/5 rounded-lg outline outline-[#8d99aebe]"
                   >
                     <div className="p-6">
-                      <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                      <h3 className="text-xl font-semibold text-neutral-50 mb-2">
                         {film.title}
                       </h3>
                       
-                      {film.director && (
-                        <p className="text-sm text-gray-600 mb-2">
-                          <span className="font-medium">Director:</span> {film.director}
+                      {film.creator && (
+                        <p className="text-sm text-neutral-300 mb-2">
+                          <span className="font-medium">Director:</span> {film.creator}
                         </p>
                       )}
-                      
+        
                       {film.year && (
-                        <p className="text-sm text-gray-600 mb-2">
+                        <p className="text-sm text-neutral-400 mb-2">
                           <span className="font-medium">Year:</span> {film.year}
                         </p>
                       )}
@@ -115,6 +120,7 @@ export default function SearchPage() {
                   </div>
                 ))}
               </div>
+            </>
             )}
           </>
         )}
