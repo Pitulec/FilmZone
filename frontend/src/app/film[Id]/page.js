@@ -26,8 +26,8 @@ function ReviewCard({ review }) {
 }
 
 // Component for displaying the Film Page
-export default function FilmPage({ searchParams }) {
-  const filmId = searchParams.id || "1"; // Get ID from parameters, default is "1"
+export default function FilmPage({ params }) {
+  const filmId = params.id;
   const [filmDetails, setFilmDetails] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
