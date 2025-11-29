@@ -1,7 +1,9 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation"; 
 
 export default function Home() {
+	const router = useRouter(); 
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState(null);
@@ -41,6 +43,8 @@ export default function Home() {
 			if (response.ok) {
 				const data = await response.json();
 				localStorage.setItem("token", data.access_token);
+				window.dispatchEvent(new Event('authChange'));
+				router.push('/'); 
 			} else {
 				const data = await response.json();
 				const errorMessage = data.detail;
