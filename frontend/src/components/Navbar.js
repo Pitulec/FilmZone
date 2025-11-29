@@ -106,7 +106,7 @@ export default function Navbar() {
 
                 <ul className="flex items-center gap-6 font-medium">
                     <li>
-                        <a href="/auth/search" className="flex items-center gap-2 hover:text-[#DD4242] transition-all">
+                        <a href="/search" className="flex items-center gap-2 hover:text-[#DD4242] transition-all">
                             <Search className="w-5" />
                             Search
                         </a>
