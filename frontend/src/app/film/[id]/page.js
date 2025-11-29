@@ -13,11 +13,6 @@ function ReviewCard({ review }) {
 				<h3 className="text-xl font-bold mb-1">{review.title}</h3>
 				<div className="flex items-center gap-2">
 					<Rating value={review.rating} readOnly={true} />
-					<img
-						src="/flag.png"
-						alt="Report review"
-						className="w-10 h-10 object-contain cursor-pointer transition-colors opacity-75 hover:opacity-100"
-					/>
 				</div>
 			</div>
 			<p className="mt-2 text-[#EDF2F4]">{review.content}</p>
