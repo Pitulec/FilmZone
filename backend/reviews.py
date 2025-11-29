@@ -8,6 +8,36 @@ from auth import get_current_active_user
 # Initialize FastAPI router for authentication routes
 router = APIRouter(prefix="/reviews", tags=["reviews"])
 
+
+# Endpoint for getting all reviews (admin only)
+@router.get("/", status_code=status.HTTP_200_OK)
+def get_all_reviews(db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
+    if current_user.role != "admin":
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Admin privileges required.")
+
+    reviews = db.query(Review).all()
+    if not reviews:
+        return []
+
+    user_ids = [r.user_id for r in reviews]
+    users_data = db.query(User.id, User.username).filter(User.id.in_(user_ids)).all()
+    username_map = {user.id: user.username for user in users_data}
+
+    result_list = []
+    for review in reviews:
+        review_dict = {
+            "id": review.id,
+            "film_id": review.film_id,
+            "user_id": review.user_id,
+            "username": username_map.get(review.user_id, "Unknown User"),
+            "title": review.title,
+            "content": review.content,
+            "stars": review.stars,
+        }
+        result_list.append(review_dict)
+
+    return result_list
+
 # Endpoint for creating review
 @router.post("/", response_model=ReviewResponse, status_code=status.HTTP_201_CREATED)
 def create_review(review: ReviewCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):

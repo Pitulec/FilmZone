@@ -7,6 +7,7 @@ from config import settings
 import auth
 import films
 import reviews
+import users
 
 Base.metadata.create_all(bind=engine)
 
@@ -44,6 +45,7 @@ app.add_middleware(
 app.include_router(auth.router)
 app.include_router(films.router)
 app.include_router(reviews.router)
+app.include_router(users.router)
 
 @app.get("/", status_code=status.HTTP_200_OK)
 def read_root():
