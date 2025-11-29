@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Poster from "@/components/Poster";
 import Rating from "@/components/Rating";
+import AddReviewModal from "@/components/AddReviewModal";
 import { Plus } from "lucide-react";
 
 // Component for displaying a single review
@@ -11,8 +12,8 @@ function ReviewCard({ review }) {
 		<div className="mb-6">
 			<div className="flex items-center justify-between">
 				<h3 className="text-xl font-bold mb-1">{review.title}</h3>
-				<div className="flex items-center gap-2">
-					<Rating value={review.rating} readOnly={true} />
+				<div className="flex items-center">
+					<Rating value={review.stars} size={16} />
 				</div>
 			</div>
 			<p className="mt-2 text-[#EDF2F4]">{review.content}</p>
@@ -42,12 +43,26 @@ export default function FilmPage({ params }) {
 	const [reviews, setReviews] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
+	const fetchReviews = async () => {
+		try {
+			const reviewsResponse = await fetch(`http://localhost:8000/reviews/film/${filmId}`);
+			if (reviewsResponse.ok) {
+				const reviewsResult = await reviewsResponse.json();
+				setReviews(reviewsResult);
+			} else {
+				console.error("Failed to fetch reviews");
+			}
+		} catch (err) {
+			console.error("Error fetching reviews:", err);
+		}
+	};
 
 	useEffect(() => {
 		if (!filmId) return; // wait until filmId is resolved
 		async function fetchFilmData() {
 			const filmUrl = `http://localhost:8000/films/${filmId}`;
-			const reviewsUrl = `http://localhost:8000/films/${filmId}/reviews`;
 
 			try {
 				// 1. Fetching film details
@@ -57,17 +72,7 @@ export default function FilmPage({ params }) {
 				setFilmDetails(filmResult);
 
 				// 2. Fetching reviews
-				const reviewsResponse = await fetch(reviewsUrl);
-				const reviewsResult = await reviewsResponse.json();
-
-				const placeholderReview = {
-					title: "{review}.{title}",
-					rating: 4,
-					content:
-						"{review}.{content} = Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ac magna scelerisque, aliquam libero non, maximus felis. Cras semper eu ex nec tincidunt. Mauris ultricies urna id arcu bibendum convallis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris pharetra felis sodales lectus maximus, at mattis nisl consequat. Aenean quis convallis augue, et blandit nisi. Pellentesque porta ac nunc sit amet tincidunt. Donec consectetur feugiat metus, id congue neque. Integer tristique nunc et felis mollis, sit amet eleifend elit porta. Aenean finibus mi at ligula vestibulum, a accumsan est eleifend. Etiam massa quam, bibendum eget mattis ut, vehicula vel magna. Pellentesque fringilla eget massa sit amet lobortis.",
-				};
-
-				setReviews([placeholderReview]);
+				await fetchReviews();
 			} catch (err) {
 				console.error("Failed to fetch film data:", err);
 				setError("Failed to load film data.");
@@ -129,7 +134,9 @@ export default function FilmPage({ params }) {
 				<div className="flex justify-between items-center mb-6">
 					<h2 className="text-2xl font-bold text-[#DD4242]">User reviews</h2>
 
-					<button className="flex items-center justify-center bg-[#DD4242] hover:bg-[#bc2121] py-2 px-4 rounded-full font-medium text-[#EDF2F4] w-50 gap-1">
+					<button
+						onClick={() => setIsModalOpen(true)}
+						className="flex items-center justify-center bg-[#DD4242] hover:bg-[#bc2121] py-2 px-4 rounded-full font-medium text-[#EDF2F4] w-50 gap-1">
 						<span className="text-xl leading-none">+</span> Review
 					</button>
 				</div>
@@ -140,6 +147,8 @@ export default function FilmPage({ params }) {
 					<p className="text-[#8D99AE]">No reviews yet!</p>
 				)}
 			</div>
+
+			<AddReviewModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} filmId={filmId} onReviewAdded={fetchReviews} />
 		</main>
 	);
 }
