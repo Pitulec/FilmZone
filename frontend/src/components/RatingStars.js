@@ -1,7 +1,6 @@
 import React from "react";
 
 export default function RatingStars({ value = 0, max = 5, size = 24 }) {
-	// Clamp value between 0 and max
 	const rating = Math.max(0, Math.min(value, max));
 	return (
 		<div className="inline gap-4 justify-center items-center">

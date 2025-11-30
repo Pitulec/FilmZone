@@ -47,7 +47,7 @@ export default function AddReviewModal({ isOpen, onClose, filmId, onReviewAdded 
 				setStars(0);
 				setHoverStars(0);
 				onClose();
-				onReviewAdded(); // Refresh reviews
+				onReviewAdded();
 			} else {
 				const data = await response.json();
 				setError(data.detail || "Failed to add review.");
