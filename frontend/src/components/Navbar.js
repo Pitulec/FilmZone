@@ -70,7 +70,6 @@ export default function Navbar() {
 
     const ProfileLink = (
         <li className="group relative">
-            {/* Zmiana: usunięto tag <a> i zastąpiono go div'em, aby usunąć profil użytkownika jako odnośnik */}
             <div className="flex items-center gap-2 hover:text-[#DD4242] transition-all cursor-default">
                 <User className="w-5" />
                 {username}

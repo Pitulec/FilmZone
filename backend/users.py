@@ -17,7 +17,6 @@ def list_users(db: Session = Depends(get_db), current_user: User = Depends(get_c
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Admin privileges required.")
 
     users = db.query(User.id, User.username, User.role).all()
-    # Convert SQLAlchemy row objects to dicts matching UserResponse
     return [{"id": u.id, "username": u.username, "role": u.role} for u in users]
 
 
@@ -48,7 +47,6 @@ class UserUpdate(BaseModel):
 
 @router.get("/{user_id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
 def get_user(user_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
-    # Allow admin or the user themself
     if current_user.role != "admin" and current_user.id != user_id:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to view this user.")
 
@@ -61,7 +59,6 @@ def get_user(user_id: int, db: Session = Depends(get_db), current_user: User = D
 
 @router.put("/{user_id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
 def update_user(user_id: int, payload: UserUpdate, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
-    # Allow admin or the user themself
     if current_user.role != "admin" and current_user.id != user_id:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to update this user.")
 

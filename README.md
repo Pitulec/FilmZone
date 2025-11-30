@@ -12,11 +12,11 @@ The project consists of:
 
 ### **Backend**
 - Python 3  
-- FastAPI  
+- FastAPI
+- PostgreSQL (default database)  
 - SQLAlchemy ORM  
 - Passlib (argon2 password hashing)  
-- python-jose (JWT authentication)  
-- SQLite (default database)  
+- python-jose (JWT authentication)
 
 ### **Frontend**
 - Next.js 14  
@@ -43,6 +43,23 @@ Then fulfill data in .env.
 
 ---
 
+## 🏢 Database Installation
+1.Install PostgreSQL and pgAdmin from:
+
+```https://www.postgresql.org/download/```
+
+```https://www.pgadmin.org/download/```
+
+2.Open pgAdmin and create new database
+
+<img width="421" height="244" alt="image" src="https://github.com/user-attachments/assets/ff699e1e-cff6-47cb-ba0c-377f2d77e771" />
+
+3.Name it e.g. filmzone.
+
+<img width="692" height="545" alt="image" src="https://github.com/user-attachments/assets/31f8fec2-1bbe-43f5-8ab2-c801a05bf236" />
+
+4.Remember the database name, username and password needed in the next steps (.env)
+
 ## 📦 Backend Installation
 
 From the root of the project:
@@ -53,7 +70,7 @@ cd backend
 ```
 python -m venv venv
 ```
-3. Activate the virtual environment
+2. Activate the virtual environment
 
 Windows (PowerShell):
 ```
