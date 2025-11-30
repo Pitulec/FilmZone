@@ -3,21 +3,16 @@
 import React, { useState, useEffect } from "react";
 import Poster from "@/components/Poster";
 import Rating from "@/components/Rating";
-import { Plus } from "lucide-react";
+import AddReviewModal from "@/components/AddReviewModal";
+import { Plus, User, Calendar } from "lucide-react";
 
-// Component for displaying a single review
 function ReviewCard({ review }) {
 	return (
 		<div className="mb-6">
 			<div className="flex items-center justify-between">
 				<h3 className="text-xl font-bold mb-1">{review.title}</h3>
-				<div className="flex items-center gap-2">
-					<Rating value={review.rating} readOnly={true} />
-					<img
-						src="/flag.png"
-						alt="Report review"
-						className="w-10 h-10 object-contain cursor-pointer transition-colors opacity-75 hover:opacity-100"
-					/>
+				<div className="flex items-center">
+					<Rating value={review.stars} size={16} />
 				</div>
 			</div>
 			<p className="mt-2 text-[#EDF2F4]">{review.content}</p>
@@ -25,7 +20,6 @@ function ReviewCard({ review }) {
 	);
 }
 
-// Component for displaying the Film Page
 export default function FilmPage({ params }) {
 	const [filmId, setFilmId] = useState(null);
 
@@ -47,36 +41,38 @@ export default function FilmPage({ params }) {
 	const [reviews, setReviews] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
+	const fetchReviews = async () => {
+		try {
+			const reviewsResponse = await fetch(`http://localhost:8000/reviews/film/${filmId}`);
+			if (reviewsResponse.ok) {
+				const reviewsResult = await reviewsResponse.json();
+				setReviews(reviewsResult);
+			} else {
+				console.error("Failed to fetch reviews");
+			}
+		} catch (err) {
+			console.error("Error fetching reviews:", err);
+		}
+	};
 
 	useEffect(() => {
-		if (!filmId) return; // wait until filmId is resolved
+		if (!filmId) return;
 		async function fetchFilmData() {
 			const filmUrl = `http://localhost:8000/films/${filmId}`;
-			const reviewsUrl = `http://localhost:8000/films/${filmId}/reviews`;
 
 			try {
-				// 1. Fetching film details
 				const filmResponse = await fetch(filmUrl);
 				if (!filmResponse.ok) throw new Error(`Film response status: ${filmResponse.status}`);
 				const filmResult = await filmResponse.json();
 				setFilmDetails(filmResult);
 
-				// 2. Fetching reviews
-				const reviewsResponse = await fetch(reviewsUrl);
-				const reviewsResult = await reviewsResponse.json();
-
-				const placeholderReview = {
-					title: "{review}.{title}",
-					rating: 4,
-					content:
-						"{review}.{content} = Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ac magna scelerisque, aliquam libero non, maximus felis. Cras semper eu ex nec tincidunt. Mauris ultricies urna id arcu bibendum convallis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris pharetra felis sodales lectus maximus, at mattis nisl consequat. Aenean quis convallis augue, et blandit nisi. Pellentesque porta ac nunc sit amet tincidunt. Donec consectetur feugiat metus, id congue neque. Integer tristique nunc et felis mollis, sit amet eleifend elit porta. Aenean finibus mi at ligula vestibulum, a accumsan est eleifend. Etiam massa quam, bibendum eget mattis ut, vehicula vel magna. Pellentesque fringilla eget massa sit amet lobortis.",
-				};
-
-				setReviews([placeholderReview]);
+				await fetchReviews();
 			} catch (err) {
 				console.error("Failed to fetch film data:", err);
 				setError("Failed to load film data.");
-				// Use placeholder data in case of error, to maintain structure
+
 				setFilmDetails({
 					title: "Movie Placeholder",
 					description:
@@ -108,33 +104,32 @@ export default function FilmPage({ params }) {
 
 	return (
 		<main className="mx-auto max-w-3xl px-7.5 mt-25">
-			{/* Header and details */}
 			<h1 className="text-2xl font-bold mb-8 text-[#EDF2F4]">Film details & reviews</h1>
 
 			<div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-				{/* Poster section */}
 				<div className="shrink-0 w-64">
 					<div className="w-full aspect-2/3 overflow-hidden rounded-xl outline-3 outline-[#8D99AE]">
-						<Poster filmId={filmId} width="300" height="450" />
+					<img src={filmDetails?.poster_url} alt={filmDetails?.title} className="rounded-xl outline-2 outline-[#8D99AE] shadow-2xl shadow-[#8d99ae2c] w-[300px] h-[450px] object-cover flex-shrink-0"/>
 					</div>
 				</div>
 
-				{/* Description section */}
 				<div className="grow">
 					<h2 className="text-4xl font-bold text-[#EDF2F4] mb-4">{filmDetails?.title || "Film Title Placeholder"}</h2>
 					<p className="text-[#EDF2F4] leading-relaxed">{filmDetails?.description || "Description placeholder..."}</p>
-					{/* In the future: list of actors, directors, release date, etc. */}
+					<p className="mt-4 text-sm text-neutral-400"><User className="inline w-5" /> {filmDetails?.creator || "Creator Placeholder"}</p>
+					<p className="text-sm text-neutral-400"><Calendar className="inline w-5" /> {filmDetails?.year || "Year Placeholder"}</p>
 				</div>
 			</div>
 
 			<hr className="my-10 border-t-2 border-[#8D99AE]" />
 
-			{/* User Reviews Section */}
 			<div className="mb-20">
 				<div className="flex justify-between items-center mb-6">
 					<h2 className="text-2xl font-bold text-[#DD4242]">User reviews</h2>
 
-					<button className="flex items-center justify-center bg-[#DD4242] hover:bg-[#bc2121] py-2 px-4 rounded-full font-medium text-[#EDF2F4] w-50 gap-1">
+					<button
+						onClick={() => setIsModalOpen(true)}
+						className="flex items-center justify-center bg-[#DD4242] hover:bg-[#bc2121] py-2 px-4 rounded-full font-medium text-[#EDF2F4] w-50 gap-1">
 						<span className="text-xl leading-none">+</span> Review
 					</button>
 				</div>
@@ -145,6 +140,8 @@ export default function FilmPage({ params }) {
 					<p className="text-[#8D99AE]">No reviews yet!</p>
 				)}
 			</div>
+
+			<AddReviewModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} filmId={filmId} onReviewAdded={fetchReviews} />
 		</main>
 	);
 }

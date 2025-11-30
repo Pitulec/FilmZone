@@ -5,11 +5,8 @@ from schemas import ReviewCreate, ReviewResponse, ReviewUpdate
 from models import User, Review
 from auth import get_current_active_user
 
-# Initialize FastAPI router for authentication routes
 router = APIRouter(prefix="/reviews", tags=["reviews"])
 
-
-# Endpoint for getting all reviews (admin only)
 @router.get("/", status_code=status.HTTP_200_OK)
 def get_all_reviews(db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
     if current_user.role != "admin":
@@ -38,7 +35,6 @@ def get_all_reviews(db: Session = Depends(get_db), current_user: User = Depends(
 
     return result_list
 
-# Endpoint for creating review
 @router.post("/", response_model=ReviewResponse, status_code=status.HTTP_201_CREATED)
 def create_review(review: ReviewCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
     try:
@@ -52,7 +48,6 @@ def create_review(review: ReviewCreate, db: Session = Depends(get_db), current_u
         db.rollback()
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Could not create review.")
 
-# Endpoint for updating review
 @router.put("/{review_id}", response_model=ReviewResponse, status_code=status.HTTP_200_OK)
 def update_review(review_id: int, review_data: ReviewUpdate, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
     db_review = db.query(Review).filter(Review.id == review_id).first()
@@ -74,7 +69,6 @@ def update_review(review_id: int, review_data: ReviewUpdate, db: Session = Depen
         db.rollback()
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Could not update review.")
 
-# Endpoint for deleting review
 @router.delete("/{review_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_review(review_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
     db_review = db.query(Review).filter(Review.id == review_id).first()
@@ -88,8 +82,7 @@ def delete_review(review_id: int, db: Session = Depends(get_db), current_user: U
     except Exception:
         db.rollback()
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Could not delete review.")
-    
-# Endpoint for getting reviews by film_id
+
 @router.get("/film/{film_id}", status_code=status.HTTP_200_OK)
 def get_reviews_by_film_id(film_id: int, db: Session = Depends(get_db)):
     reviews = db.query(Review).filter(Review.film_id == film_id).all()

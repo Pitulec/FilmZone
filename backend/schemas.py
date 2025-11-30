@@ -2,7 +2,6 @@ from pydantic import BaseModel, Field
 from typing import Optional
 from datetime import datetime
  
-# User schemas
 class UserBase(BaseModel):
     username: str = Field(..., min_length=3, max_length=50)
     role: str = Field(..., description="User role - 'user' or 'admin'.")
@@ -16,7 +15,6 @@ class UserResponse(UserBase):
     class Config:
         from_attributes = True
 
-# Film schemas
 class FilmBase(BaseModel):
     poster_url: str = Field(..., min_length=10, description="URL address of the film poster.")
     title: str = Field(..., min_length=1, max_length=200)
@@ -40,7 +38,6 @@ class FilmResponse(FilmBase):
     class Config:
         from_attributes = True
 
-# Auth schemas
 class Token(BaseModel):
     access_token: str
     token_type: str
@@ -60,7 +57,6 @@ class ReviewBase(BaseModel):
 
 
 class ReviewAuthor(BaseModel):
-    # Dane, które chcemy zwrócić o autorze
     id: int
     username: str
 
