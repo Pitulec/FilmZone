@@ -2,7 +2,6 @@ from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Boolean, U
 from sqlalchemy.orm import relationship, column_property
 from database import Base
 
-# Users
 class User(Base):
     __tablename__ = "users"
 
@@ -13,7 +12,6 @@ class User(Base):
     
     reviews = relationship("Review", back_populates="author", cascade="all, delete-orphan")
 
-# Films
 class Film(Base):
     __tablename__ = "films"
 
@@ -26,7 +24,6 @@ class Film(Base):
 
     reviews = relationship("Review", back_populates="film", cascade="all, delete-orphan")
 
-# Reviews
 class Review(Base):
     __tablename__ = "reviews"
 

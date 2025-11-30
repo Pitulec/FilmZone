@@ -5,10 +5,8 @@ from schemas import FilmCreate, FilmResponse, FilmUpdate
 from models import User, Film
 from auth import get_current_active_user
 
-# Initialize FastAPI router for authentication routes
 router = APIRouter(prefix="/films", tags=["films"])
 
-# Endpoint for creating film
 @router.post("/", response_model=FilmResponse, status_code=status.HTTP_201_CREATED)
 def create_film(film: FilmCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
     if current_user.role != "admin":
@@ -24,7 +22,6 @@ def create_film(film: FilmCreate, db: Session = Depends(get_db), current_user: U
             db.rollback() 
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Database error: Could not create film due to data or constraint violation.")
 
-# Endpoint for updating film
 @router.put("/{film_id}", response_model=FilmResponse, status_code=status.HTTP_200_OK)
 def update_film(film_id: int, film_data: FilmUpdate, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
     if current_user.role != "admin":
@@ -47,8 +44,7 @@ def update_film(film_id: int, film_data: FilmUpdate, db: Session = Depends(get_d
             status_code=status.HTTP_400_BAD_REQUEST, 
             detail=f"Database error: Could not update film due to data or constraint violation."
         )
-    
-# Endpoint for deleting film
+
 @router.delete("/{film_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_film(film_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
     if current_user.role != "admin":
@@ -69,12 +65,10 @@ def delete_film(film_id: int, db: Session = Depends(get_db), current_user: User 
             detail=f"Database error: Could not delete film."
         )
 
-# Endpoint for getting all films
 @router.get("/", status_code=status.HTTP_200_OK)
 def get_all_films(db: Session = Depends(get_db)):
     return db.query(Film).all()
 
-# Endpoint for getting film by id
 @router.get("/{film_id}", status_code=status.HTTP_200_OK)
 def get_film_by_id(film_id: int, db: Session = Depends(get_db)):
     film = db.query(Film).filter(Film.id == film_id).first()
