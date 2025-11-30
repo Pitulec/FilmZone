@@ -55,12 +55,6 @@ export default function AdminDashboardClient({ initialFilms = [] }) {
 					<section>
 						<div className="flex items-center justify-between mb-4">
 							<h3 className="text-md font-semibold text-[#DD4242]">Manage users</h3>
-							<a
-								href="/dashboard/admin/newUser"
-								role="button"
-								className="inline-block bg-[#DD4242] text-white px-3 py-1 rounded-full text-sm">
-								+ Add user
-							</a>
 						</div>
 						<UserManagerClient />
 					</section>

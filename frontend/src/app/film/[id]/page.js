@@ -50,7 +50,7 @@ export default function FilmPage({ params }) {
 				const reviewsResult = await reviewsResponse.json();
 				setReviews(reviewsResult);
 			} else {
-				console.error("Failed to fetch reviews");
+				//
 			}
 		} catch (err) {
 			console.error("Error fetching reviews:", err);
@@ -109,15 +109,23 @@ export default function FilmPage({ params }) {
 			<div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
 				<div className="shrink-0 w-64">
 					<div className="w-full aspect-2/3 overflow-hidden rounded-xl outline-3 outline-[#8D99AE]">
-					<img src={filmDetails?.poster_url} alt={filmDetails?.title} className="rounded-xl outline-2 outline-[#8D99AE] shadow-2xl shadow-[#8d99ae2c] w-[300px] h-[450px] object-cover flex-shrink-0"/>
+						<img
+							src={filmDetails?.poster_url}
+							alt={filmDetails?.title}
+							className="rounded-xl outline-2 outline-[#8D99AE] shadow-2xl shadow-[#8d99ae2c] w-[300px] h-[450px] object-cover shrink-0"
+						/>
 					</div>
 				</div>
 
 				<div className="grow">
 					<h2 className="text-4xl font-bold text-[#EDF2F4] mb-4">{filmDetails?.title || "Film Title Placeholder"}</h2>
 					<p className="text-[#EDF2F4] leading-relaxed">{filmDetails?.description || "Description placeholder..."}</p>
-					<p className="mt-4 text-sm text-neutral-400"><User className="inline w-5" /> {filmDetails?.creator || "Creator Placeholder"}</p>
-					<p className="text-sm text-neutral-400"><Calendar className="inline w-5" /> {filmDetails?.year || "Year Placeholder"}</p>
+					<p className="mt-4 text-sm text-neutral-400">
+						<User className="inline w-5" /> {filmDetails?.creator || "Creator Placeholder"}
+					</p>
+					<p className="text-sm text-neutral-400">
+						<Calendar className="inline w-5" /> {filmDetails?.year || "Year Placeholder"}
+					</p>
 				</div>
 			</div>
 
