@@ -108,6 +108,23 @@ Swagger API docs:
 http://127.0.0.1:8000/docs
 ```
 ---
+
+# 🎞️ Adding sample videos
+
+1.Turn on server
+
+```
+uvicorn main:app --reload
+```
+
+2.Add films
+
+```
+.\backend\imdb_fetcher.py
+```
+
+---
+
 # 📦 Frontend Installation
 
 From the project root:
